@@ -1,0 +1,26 @@
+# output folders
+target
+bin
+out
+dist
+generated
+
+# ide settings
+.settings
+.classpath
+.project
+.vscode
+.idea
+.run
+*.iml
+
+#misc
+.cache
+.parcel-cache
+node_modules
+yarn-error.log
+temp
+tomcat
+*.log
+
+.factorypath

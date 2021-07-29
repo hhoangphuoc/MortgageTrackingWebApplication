@@ -1,0 +1,3 @@
+function tsFetch(def: JSON){
+
+}

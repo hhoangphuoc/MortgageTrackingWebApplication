@@ -1,0 +1,104 @@
+<div class="pb-2">
+<div class="mx-auto text-center mt-8">
+    <h1 class="text-4xl tracking-tight font-extrabold text-gray-900">Create An Account</h1>
+    <p>
+        already have an account? <a class="text-blue-600" href="#login">login</a>.  
+    </p>
+</div>
+<div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <form @submit.prevent="register" class="space-y-6" action="#" method="POST">
+        <div>
+          <output class="text-red-400" :value="message"></output>
+        </div>
+        <div>
+          <label for="first_name" class="block text-sm font-medium text-gray-700">
+            First name
+          </label>
+          <div class="mt-1">
+            <input v-model="registerData.firstName" id="first-name" name="first-name" type="text" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+          </div>
+        </div>
+
+        <div>
+            <label for="first_name" class="block text-sm font-medium text-gray-700">
+              Last name
+            </label>
+            <div class="mt-1">
+              <input v-model="registerData.lastName" id="last-name" name="last-name" type="text" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+            </div>
+          </div>
+
+        <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">
+            Email address
+        </label>
+        <div class="mt-1">
+            <input v-model="registerData.email" id="email" name="email" type="email" autocomplete="email" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+        </div>
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <div class="mt-1">
+            <input v-model="registerData.password" id="password" name="password" type="password" autocomplete="current-password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+          </div>
+        </div>
+
+        <div>
+            <label for="confirm_password" class="block text-sm font-medium text-gray-700">
+              Confirm password
+            </label>
+            <div class="mt-1">
+              <input v-model="registerData.confirmPassword" id="confirm-password" name="confirm-password" type="password" autocomplete="current-password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+            </div>
+          </div>
+        <output :value="msg"></output>
+        <div>
+          <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Register
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-6">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300" />
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white text-gray-500">
+              Or continue with
+            </span>
+          </div>
+        </div>
+
+       <div class="mt-6 grid grid-cols-3 gap-3">
+          <div>
+            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+              <span class="sr-only">Sign in with Facebook</span>
+              <img  src="../../assets/external/facebook.svg" alt="Facebook" class="w-5 h-5">
+            </a>
+          </div>
+
+          <div>
+            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+              <span class="sr-only">Sign in with Twitter</span>
+              <img src="../../assets/external/twitter.svg" alt="Twitter" class="w-5 h-5">
+            </a>
+          </div>
+
+          <div>
+            <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+              <span class="sr-only">Sign in with GitHub</span>
+              <img src="../../assets/external/github.svg" alt="GitHub"
+              class="w-5 h-5" fill="black"/>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

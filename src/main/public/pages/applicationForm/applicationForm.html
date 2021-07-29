@@ -1,0 +1,264 @@
+<div class="container mx-auto w-2/3">
+    <h1 class="text-2xl text-center font-bold leading-7 m-5 text-gray-900 sm:text-3xl sm:truncate">Mortgage Online Application Form</h1>
+
+    <!-- Progress bar -->
+    <nav aria-label="Progress">
+        <ol class="border border-gray-300 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
+          <li v-for="(step, stepIdx) in steps" :key="step.name" class="relative md:flex-1 md:flex">
+            <a v-if="step.status === 'complete'" :href="step.href" class="group flex items-center w-full">
+              <span class="px-6 py-4 flex items-center text-sm font-medium">
+                <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-blue-600 rounded-full group-hover:bg-blue-800">
+                  <CheckIcon class="w-6 h-6 text-white" aria-hidden="true" />
+                </span>
+                <span class="ml-4 text-sm font-medium text-gray-900">{{ step.name }}</span>
+              </span>
+            </a>
+            <a v-else-if="step.status === 'current'" :href="step.href" class="px-6 py-4 flex items-center text-sm font-medium" aria-current="step">
+              <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-blue-600 rounded-full">
+                <span class="text-blue-600">{{ step.id }}</span>
+              </span>
+              <span class="ml-4 text-sm font-medium text-blue-600">{{ step.name }}</span>
+            </a>
+            <a v-else :href="step.href" class="group flex items-center">
+              <span class="px-6 py-4 flex items-center text-sm font-medium">
+                <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full group-hover:border-gray-400">
+                  <span class="text-gray-500 group-hover:text-gray-900">{{ step.id }}</span>
+                </span>
+                <span class="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">{{ step.name }}</span>
+              </span>
+            </a>
+            <template v-if="(stepIdx !== steps.length - 1)">
+              <!-- Arrow separator for lg screens and up -->
+              <div class="hidden md:block absolute top-0 right-0 h-full w-5" aria-hidden="true">
+                <svg class="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
+                  <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </template>
+          </li>
+        </ol>
+    </nav>
+
+    <form class="applicationForm rounded-xl shadow bg-gray-100 mt-2 p-4 mx-auto" action="#" autocomplete="off">
+        <!-- <div style="max-width: 400px;"> -->
+
+        <!--Page 2 of 5-->
+        <div class="page slide-page mx-auto w-1/3">
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="grossIncome" class="block text-sm font-medium text-gray-700">
+                    Your gross annual income:
+                <span class="text-red-400">
+                    *
+                </span>
+                </label>
+                <input class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="number" step=1 id="grossIncome" name="grossIncome"/><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="willRetired" class="block text-sm font-medium text-gray-700">Are you retiring within 10 years? </label>
+                <span class="ml-3 block text-sm font-medium text-gray-700">
+                    <input type="radio" id="has_retire" name="willRetired" value="true" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"/>
+                    Yes
+                </span>
+                <span class="ml-3 block text-sm font-medium text-gray-700"><input type="radio" id="no_retire" name="willRetired" value="false" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"/>
+                    No
+                </span>
+                <br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="havePartner" class="block text-sm font-medium text-gray-700">Do you have a have partner? </label>
+                <span class="ml-3 block text-sm font-medium text-gray-700">
+                    <input type="radio" id="has_partner" name="havePartner" v-bind:value="true" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300" v-model="hasPartner" />
+                    Yes 
+                </span>
+                <span class="ml-3 block text-sm font-medium text-gray-700">
+                    <input type="radio" id="no_partner" name="havePartner" v-bind:value="false" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300" v-model="hasPartner" />
+                    No 
+                </span>
+                <br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="partnerGrossIncome" class="block text-sm font-medium text-gray-700">Your partner's gross annual income: </label>
+                <input :disabled="hasPartner === false" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md disabled:opacity-50" type="number" step=1 id="partnerGrossIncome" name="partnerGrossIncome" /><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="willPartnerRetire" class="block text-sm font-medium text-gray-700">Will your partner retire within 10 years? </label>
+                <span class="ml-3 block text-sm font-medium text-gray-700"><input :disabled="hasPartner === false" class="disabled:opacity-50" type="radio" id="has_partner_retire" name="willPartnerRetire" value="true"/> Yes </span>
+                <span class="ml-3 block text-sm font-medium text-gray-700"><input :disabled="hasPartner === false" class="disabled:opacity-50" type="radio" id="no_partner_retire" name="willPartnerRetire" value="false"/> No </span><br/>
+            </div>
+
+                <!-- next button-->
+            <div class="px-4 py-3 text-right sm:px-6">
+            <button type="submit" class="next bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Next
+            </button>
+            </div>
+        </div>
+
+        <!--Page 3 of 5-->       
+        <div class="page mx-auto w-1/3">
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="haveStudentLoan" class="block text-sm font-medium text-gray-700">Do you have student debt? </label>
+                <span><input type="radio" id="has_loan" name="haveStudentLoan" v-bind:value="true" v-model="hasStudentDebt" /> Yes </span>
+                <span><input type="radio" id="no_loan" name="haveStudentLoan" v-bind:value="false" v-model="hasStudentDebt" /> No </span><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="studentDebt" class="block text-sm font-medium text-gray-700">Student debt: </label>
+                <input :disabled="hasStudentDebt === false" type="number" step=1 id="studentDebt" name="studentDebt"  class="disabled:opacity-50 form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="haveSpousalMaintenance" class="block text-sm font-medium text-gray-700">Do you pay spousal maintenance? </label>
+                <span><input type="radio" id="has_spousal" name="haveSpousalMaintenance" v-bind:value="true" v-model="hasAlimony"/> Yes </span>
+                <span><input type="radio" id="no_spousal" name="haveSpousalMaintenance" v-bind:value="false" v-model="hasAlimony" /> No </span><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="monthlyAlimony" class="block text-sm font-medium text-gray-700">Alimony per month: </label>
+                <input :disabled="hasAlimony === false" type="number" step=1 id="monthlyAlimony" name="monthlyAlimony" class="disabled:opacity-50 form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="haveOtherDebt" class="block text-sm font-medium text-gray-700">Other debt? </label>
+                <span><input type="radio" id="has_debt" name="haveOtherDebt" v-bind:value="true" v-model="hasOtherDebt"/> Yes </span>
+                <span><input type="radio" id="no_debt" name="haveOtherDebt" v-bind:value="false" v-model="hasOtherDebt" /> No </span><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="otherDebtInfo" class="block text-sm font-medium text-gray-700">Debt Info: </label>
+                <input :disabled="hasOtherDebt === false" type="text" id="otherDebtInfo" name="otherDebtInfo" class="disabled:opacity-50 form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="otherDebtAmount" class="block text-sm font-medium text-gray-700">Debt Amount: </label>
+                <input :disabled="hasOtherDebt === false" type="number" step=1 id="otherDebtAmount" name="otherDebtAmount"  class="disabled:opacity-50 form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="haveCredits" class="block text-sm font-medium text-gray-700">Credits: </label>
+                <span><input type="radio" id="has_credit" name="haveCredits" v-bind:value="true" v-model="hasCredits" /> Yes </span>
+                <span><input type="radio" id="no_credit" name="haveCredits" v-bind:value="false" v-model="hasCredits" /> No </span><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="creditInfo" class="block text-sm font-medium text-gray-700">Credit Info: </label>
+                <input :disabled="hasCredits === false" type="text" id="creditInfo" name="creditInfo"  class="disabled:opacity-50 form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="creditAmount" class="block text-sm font-medium text-gray-700">Credit Amount: </label>
+                <input :disabled="hasCredits === false" type="number" step=1 id="creditAmount" name="creditAmount"  class="disabled:opacity-50 form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+
+            <!-- back and next button-->
+            <div class="btns px-4 py-3 text-right sm:px-6">
+                <button class="prev-1 prev bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4">Back</button>
+                <button class="next-1 next bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Next</button>
+            </div>
+        </div>
+
+        <!--Page 4 of 5-->
+        <div class="page mx-auto w-1/3">
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="bankAmount" class="block text-sm font-medium text-gray-700">Amount money on bank account: <span style="color: red;"> *</span></label><br/>
+                <input type="number" step=1 id="bankAmount" name="bankAmount"  class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="collateral1" class="block text-sm font-medium text-gray-700"> First collateral: </label>
+                <select id="collateral1" name="collateral1" class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <option>House</option>
+                    <option>Car</option>
+                    <option>Other</option>
+                    <option>No collateral</option>
+                </select><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="price1" class="block text-sm font-medium text-gray-700">1st collateral price: </label>
+                <input type="number" step=1 id="price1" name="price1" style="max-width: 100%;" class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="collateral2" class="block text-sm font-medium text-gray-700"> Second collateral: </label>
+                <select id="collateral2" name="collateral2" class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <option>House</option>
+                    <option>Car</option>
+                    <option>Other</option>
+                    <option>No collateral</option>
+                </select><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="price2" class="block text-sm font-medium text-gray-700">2nd collateral price: </label>
+                <input type="number" step=1 id="price2" name="price2" style="max-width: 100%;" class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="collateral3" class="block text-sm font-medium text-gray-700"> Third collateral: (optional) </label>
+                <select id="collateral3" name="collateral3" class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <option>House</option>
+                    <option>Car</option>
+                    <option>Other</option>
+                    <option>No collateral</option>
+                </select><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="price3" class="block text-sm font-medium text-gray-700">3rd collateral price: </label>
+                <input type="number" step=1 id="price3" name="price3" style="max-width: 100%;" class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+            <!-- back and next button-->
+            <div class="btns px-4 py-3 text-right sm:px-6">
+                <button class="prev-2 prev bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4">Back</button>
+                <button class="next-2 next bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Next</button>
+            </div>
+        </div>
+
+        <!--Page 5 of 5-->
+        <div class="page mx-auto w-1/3">
+            <output class="error" :value="error"></output>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="requestedMortgageAmount" class="block text-sm font-medium text-gray-700">Requested mortgage amount: </label>
+                <input type="number" step=1 id="requestedMortgageAmount" name="requestedMortgageAmount" class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="date" class="block text-sm font-medium text-gray-700">Date: </label>
+                <input type="date" step=1 id="date" name="date" style="max-width: 100%;" class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/><br/>
+            </div>
+
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="duration" class="block text-sm font-medium text-gray-700">Duration: </label>
+                <select id="duration" name="duration" class="form-control mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <option>1 months</option>
+                    <option>6 months</option>
+                    <option>12 months</option>
+                    <option>2 years</option>
+                    <option>5 years</option>
+                    <option>10 years</option>
+                </select><br/>
+            </div>
+            <div class="field col-span-6 sm:col-span-3">
+                <label for="reason" class="block text-sm font-medium text-gray-700">Reason </label>
+                <textarea id="reason" name="reason" class="form-textarea mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" rows="3" placeholder="Enter reason for your mortgage."></textarea><br/>
+            </div>
+
+
+            <!-- back and next button-->
+            <div class="btns px-4 py-3 text-right sm:px-6">
+                <button class="prev-3 prev bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4">Back</button>
+                <button class="submit bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>

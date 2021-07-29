@@ -1,0 +1,10 @@
+span {
+    display: block;
+    position: relative;
+    pointer-events: none;
+}
+
+span div {
+    position: absolute;
+    
+}

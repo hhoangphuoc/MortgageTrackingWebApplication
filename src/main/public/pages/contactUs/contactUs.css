@@ -1,0 +1,19 @@
+img {
+  height:150px;
+  width:210px;
+  margin: auto;
+}
+
+p {
+	margin-top: 20px;
+}
+
+.ContactBox {
+	width: fit-content;
+	margin-left: 40px;
+	margin-right: 40px;
+	margin-top: 40px;
+	margin-bottom: 20px;
+	float: left;
+	box-shadow: 10px 10px 5px #aaaaaa;
+}

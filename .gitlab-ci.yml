@@ -1,0 +1,77 @@
+image: maven:3.6.1-jdk-11
+
+variables:
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end"
+
+# Cache the Maven repository so that each job does not have to download it.
+cache:
+  key: mavenrepo
+  paths:
+    - ./.m2/repository/
+    - ./node_modules/
+    - ./target/node/
+
+stages:
+  - test
+  - coverage
+  - build
+  - deploy
+
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS test -Dskip-integration
+  artifacts:
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+    expire_in: 1 week
+
+coverage:
+  stage: coverage
+  script:
+    - mvn $MAVEN_CLI_OPTS jacoco:report
+  artifacts:
+    paths:
+      - target/site/jacoco/jacoco.xml
+    expire_in: 1 week
+
+
+
+
+checkstyle:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS checkstyle:checkstyle
+
+build:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS install -DskipTests -Dbuild-client
+  artifacts:
+    paths:
+      - target/ROOT.war
+    expire_in: 1 week
+
+
+# https://crypt.codemancers.com/posts/2020-06-26-auto-deploy-to-heroku-using-gitlab-ci/
+deploy-heroku-dev:
+  stage: deploy
+  variables:
+    HEROKU_API_KEY: $HEROKU_DEV_KEY
+    HEROKU_APP_NAME: $HEROKU_DEV_APP_NAME
+  script:
+    - mvn heroku:deploy-war -DskipTests -Dbuild-client
+  only: 
+    - dev
+
+deploy-heroku-prod:
+  stage: deploy
+  variables:
+    HEROKU_API_KEY: $HEROKU_PROD_KEY
+    HEROKU_APP_NAME: $HEROKU_PROD_APP_NAME
+  script:
+    - mvn heroku:deploy-war -DskipTests -Dbuild-client
+  only: 
+    - master

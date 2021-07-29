@@ -1,0 +1,10 @@
+#box {
+	margin: auto;
+	width: 70%;
+}
+
+.title {
+	margin-top: 40px;
+	font-size: 18px;
+	font-weight: 800;
+}
